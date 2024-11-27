@@ -75,3 +75,29 @@ async function create (fields) {
   await order.populate('products')
   return order
 }
+async function edit (_id, change) {
+    const orders = await get(_id)
+
+    // todo can we use spread operators here?
+    Object.keys(change).forEach(function (key) {
+      orders[key] = change[key]
+    })
+
+    //Object.assign(product, {...change});
+
+    await orders.save()
+
+    return orders
+  }
+
+async function destroy(_id) {
+    await Order.deleteOne({ _id })
+}
+
+module.exports={
+    create,
+    get,
+    list,
+    edit,
+    destroy
+}
